@@ -1,0 +1,16 @@
+cabal-version:       3.0
+
+name:                adventofcode
+version:             0.1.0.0
+description:         My solutions for the Advent Of Code 2020 challenge written in Haskell
+bug-reports:         https://github.com/Scriptim/AdventOfCode2020/issues
+license:             MIT
+license-file:        LICENSE
+author:              Scriptim
+maintainer:          Scriptim@gmx.de
+extra-source-files:  README.md
+
+executable adventofcode
+  main-is:             Main.hs
+  build-depends:       base ^>=4.14.1.0
+  default-language:    Haskell2010
