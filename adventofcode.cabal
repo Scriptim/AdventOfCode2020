@@ -26,3 +26,9 @@ executable password-philosophy
   hs-source-dirs:      02-password_philosophy
   build-depends:       base ^>=4.14.1.0, split ^>=0.2.3.4
   default-language:    Haskell2010
+
+executable toboggan-trajectory
+  main-is:             main.hs
+  hs-source-dirs:      03-toboggan_trajectory
+  build-depends:       base ^>=4.14.1.0
+  default-language:    Haskell2010
