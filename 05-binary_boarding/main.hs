@@ -1,3 +1,6 @@
+import           Data.List  (find)
+import           Data.Maybe (fromJust)
+
 binarySearch :: (Int, Int) -> String -> Int
 binarySearch (lower, _) [] = lower
 binarySearch bounds (x:xs)
@@ -14,4 +17,6 @@ getSeatId str = row * 8 + col
 main :: IO ()
 main = do
   input <- lines <$> readFile "input.txt"
-  print $ maximum $ map getSeatId input
+  let seats = map getSeatId input
+  print $ maximum seats
+  print $ fromJust $ find (\x -> notElem x seats && elem (pred x) seats && elem (succ x) seats) [1..]
