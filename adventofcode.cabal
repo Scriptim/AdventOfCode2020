@@ -50,3 +50,9 @@ executable custom-customs
   hs-source-dirs:      06-custom_customs
   build-depends:       base ^>=4.14.1.0, split ^>=0.2.3.4
   default-language:    Haskell2010
+
+executable handy-haversacks
+  main-is:             main.hs
+  hs-source-dirs:      07-handy_haversacks
+  build-depends:       base ^>=4.14.1.0, containers ^>=0.6.2.1
+  default-language:    Haskell2010
