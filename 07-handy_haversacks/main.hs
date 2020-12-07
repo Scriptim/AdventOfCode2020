@@ -12,7 +12,12 @@ getChildBags :: M.Map String [(String, Int)] -> String -> [String]
 getChildBags rules bag = bag:concatMap (getChildBags rules) children
   where children = map fst $ fromJust $ M.lookup bag rules
 
+countChildBags :: M.Map String [(String, Int)] -> String -> Int
+countChildBags rules bag = sum $ map (\(child, num) -> num + num * countChildBags rules child) children
+  where children = fromJust $ M.lookup bag rules
+
 main :: IO ()
 main = do
   input <- M.fromList . map (parse . words) . lines <$> readFile "input.txt"
   print $ length $ filter (elem "shiny gold") $ map (tail . getChildBags input) $ M.keys input
+  print $ countChildBags input "shiny gold"
