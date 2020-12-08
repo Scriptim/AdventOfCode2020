@@ -56,3 +56,9 @@ executable handy-haversacks
   hs-source-dirs:      07-handy_haversacks
   build-depends:       base ^>=4.14.1.0, containers ^>=0.6.2.1
   default-language:    Haskell2010
+
+executable handheld-halting
+  main-is:             main.hs
+  hs-source-dirs:      08-handheld_halting
+  build-depends:       base ^>=4.14.1.0
+  default-language:    Haskell2010
