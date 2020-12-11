@@ -74,3 +74,9 @@ executable adapter-array
   hs-source-dirs:      10-adapter_array
   build-depends:       base ^>=4.14.1.0
   default-language:    Haskell2010
+
+executable seating-system
+  main-is:             main.hs
+  hs-source-dirs:      11-seating_system
+  build-depends:       base ^>=4.14.1.0
+  default-language:    Haskell2010
