@@ -86,3 +86,9 @@ executable rain-risk
   hs-source-dirs:      12-rain_risk
   build-depends:       base ^>=4.14.1.0
   default-language:    Haskell2010
+
+executable shuttle-search
+  main-is:             main.hs
+  hs-source-dirs:      13-shuttle_search
+  build-depends:       base ^>=4.14.1.0, split ^>=0.2.3.4
+  default-language:    Haskell2010
