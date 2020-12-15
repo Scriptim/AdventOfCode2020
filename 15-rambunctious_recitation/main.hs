@@ -1,17 +1,27 @@
-import           Data.List.Split (splitOn)
-import qualified Data.Map        as Map
+import           Control.Monad               (zipWithM_, (>=>))
+import           Data.List.Split             (splitOn)
+import qualified Data.Vector.Unboxed.Mutable as MV
 
-type History = (Map.Map Int Int, Int)
+type History = (MV.IOVector Int, Int)
 
-nextNum :: (History, Int) -> (History, Int)
-nextNum ((nums, turns), lastNum) = case Map.lookup lastNum nums of
-  Nothing -> (newHistory, 0)
-  Just n  -> (newHistory, turns - n)
-  where newHistory = (Map.insert lastNum turns nums, succ turns)
+nextNum :: (History, Int) -> IO (History, Int)
+nextNum ((nums, turns), lastNum) = do
+  recent <- MV.unsafeRead nums lastNum
+  MV.unsafeWrite nums lastNum turns
+  case recent of
+    -1 -> return (newHistory, 0)
+    n  -> return (newHistory, turns - n)
+    where newHistory = (nums, succ turns)
+
+nthNum :: [Int] -> Int -> IO Int
+nthNum starting n = do
+  startVec <- MV.replicate n (-1)
+  zipWithM_ (MV.unsafeWrite startVec) starting [1..]
+  let runGame = foldl1 (>=>) $ replicate (n - length starting) nextNum
+  snd <$> runGame ((startVec, length starting), last starting)
 
 main :: IO ()
 main = do
   input <- map read . splitOn "," <$> readFile "input.txt" :: IO [Int]
-  let start = ((Map.fromList . init $ zip input [1..], length input), last input)
-  print $ snd $ foldl1 (.) (replicate (2020 - length input) nextNum) start
-  print $ snd $ foldl1 (.) (replicate (30000000 - length input) nextNum) start
+  print =<< nthNum input 2020
+  print =<< nthNum input 30000000
