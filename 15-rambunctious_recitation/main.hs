@@ -1,12 +1,17 @@
-import           Data.List       (elemIndex)
 import           Data.List.Split (splitOn)
+import qualified Data.Map        as Map
 
-nextNum :: [Int] -> [Int]
-nextNum history@(x:xs) = case elemIndex x xs of
-  Nothing -> 0:history
-  Just n  -> succ n:history
+type History = (Map.Map Int Int, Int)
+
+nextNum :: (History, Int) -> (History, Int)
+nextNum ((nums, turns), lastNum) = case Map.lookup lastNum nums of
+  Nothing -> (newHistory, 0)
+  Just n  -> (newHistory, turns - n)
+  where newHistory = (Map.insert lastNum turns nums, succ turns)
 
 main :: IO ()
 main = do
-  input <- reverse . map read . splitOn "," <$> readFile "input.txt" :: IO [Int]
-  print $ head . foldl1 (.) (replicate (2020 - length input) nextNum) $ input
+  input <- map read . splitOn "," <$> readFile "input.txt" :: IO [Int]
+  let start = ((Map.fromList . init $ zip input [1..], length input), last input)
+  print $ snd $ foldl1 (.) (replicate (2020 - length input) nextNum) start
+  print $ snd $ foldl1 (.) (replicate (30000000 - length input) nextNum) start
