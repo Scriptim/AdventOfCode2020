@@ -128,3 +128,9 @@ executable monster-messages
   hs-source-dirs:      19-monster_messages
   build-depends:       base ^>=4.14.1.0, containers ^>=0.6.2.1, split ^>=0.2.3.4
   default-language:    Haskell2010
+
+executable jurassic-jigsaw
+  main-is:             main.hs
+  hs-source-dirs:      20-jurassic_jigsaw
+  build-depends:       base ^>=4.14.1.0, split ^>=0.2.3.4
+  default-language:    Haskell2010
