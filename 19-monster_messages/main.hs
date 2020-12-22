@@ -1,10 +1,11 @@
+import           Control.Monad                 (guard)
 import           Data.Char                     (isDigit)
 import           Data.Either                   (isRight)
 import           Data.List.Split               (splitOn)
 import qualified Data.Map                      as M
 import           Data.Maybe                    (fromJust)
-import           Text.ParserCombinators.Parsec (Parser, char, eof, parse, try,
-                                                (<|>))
+import           Text.ParserCombinators.Parsec (Parser, char, eof, many1, parse,
+                                                try, (<|>))
 
 type Rules = M.Map Int [[Either Int String]]
 
@@ -17,9 +18,16 @@ parseInput str = (M.fromList $ map parseRuleLine rulesRaw, msgsRaw)
     parseRule [rulesA, rulesB] = parseRule [rulesA] ++ parseRule [rulesB]
     [rulesRaw, msgsRaw] = map lines $ splitOn "\n\n" str
 
-matchWord :: Rules -> Parser String
-matchWord rules = parser (fromJust $ M.lookup 0 rules) <* eof
+matchWord :: Bool -> Rules -> Parser String
+matchWord part2 rules = parser0 <* eof
   where
+    parser0 = if part2
+      then do
+        matches42 <- many1 (lookupParser 42)
+        matches31 <- many1 (lookupParser 31)
+        guard $ length matches42 > length matches31
+        return $ concat $ matches42 ++ matches31
+      else lookupParser 0
     parser [[Right literal]] = return <$> char (head literal)
     parser [[Left rule]] = lookupParser rule
     parser [Left ruleA:rules] = try $ (++) <$> lookupParser ruleA <*> parser [rules]
@@ -29,4 +37,5 @@ matchWord rules = parser (fromJust $ M.lookup 0 rules) <* eof
 main :: IO ()
 main = do
   (rules, messages) <- parseInput <$> readFile "input.txt"
-  print $ length $ filter (isRight . parse (matchWord rules) "") messages
+  print $ length $ filter (isRight . parse (matchWord False rules) "") messages
+  print $ length $ filter (isRight . parse (matchWord True rules) "") messages
