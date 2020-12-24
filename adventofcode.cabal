@@ -152,3 +152,9 @@ executable crab-cups
   hs-source-dirs:      23-crab_cups
   build-depends:       base ^>=4.14.1.0, vector ^>=0.12.1.2
   default-language:    Haskell2010
+
+executable lobby-layout
+  main-is:             main.hs
+  hs-source-dirs:      24-lobby_layout
+  build-depends:       base ^>=4.14.1.0
+  default-language:    Haskell2010
