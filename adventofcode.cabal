@@ -158,3 +158,9 @@ executable lobby-layout
   hs-source-dirs:      24-lobby_layout
   build-depends:       base ^>=4.14.1.0, vector ^>=0.12.1.2
   default-language:    Haskell2010
+
+executable combo-breaker
+  main-is:             main.hs
+  hs-source-dirs:      25-combo_breaker
+  build-depends:       base ^>=4.14.1.0
+  default-language:    Haskell2010
